@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioMastery TH 🧬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;
+  --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --green:#00d47e;--green-dim:#0d3a23;
+  --blue:#388bfd;--blue-dim:#0d2149;
+  --orange:#f0883e;--orange-dim:#3a1a00;
+  --red:#f85149;--red-dim:#3a0d0d;
+  --shadow:0 8px 32px rgba(0,0,0,.5);
+  --r:14px;--r2:8px;
+  --font:'Kanit',sans-serif;--font2:'Sarabun',sans-serif;
+}
+[data-theme="light"]{
+  --bg:#f0f4f8;--bg2:#fff;--bg3:#e8edf3;--border:#d0d7de;
+  --text:#1f2328;--text2:#57606a;--text3:#8c959f;
+  --green-dim:#dcfce7;--blue-dim:#dbeafe;--orange-dim:#fff7ed;--red-dim:#fee2e2;
+  --shadow:0 8px 32px rgba(0,0,0,.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font2);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 10%,rgba(0,212,126,.06) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 80% 90%,rgba(56,139,253,.05) 0%,transparent 70%);pointer-events:none;z-index:0}
+#app{position:relative;z-index:1}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.fade-in{animation:fadeIn .35s ease forwards}
+
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(13,17,23,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+[data-theme="light"] .topnav{background:rgba(240,244,248,.92)}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--font);font-weight:700;font-size:1.1rem;color:var(--green);cursor:pointer}
+.logo span{font-size:1.5rem}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-icon{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.btn-icon:hover{background:var(--green);color:#000;border-color:var(--green)}
+
+/* PAGE */
+.page{min-height:100vh;padding:80px 16px 40px;max-width:760px;margin:0 auto}
+.page-c{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+
+/* HOME */
+.dna{font-size:4rem;margin-bottom:12px;display:inline-block;animation:pulse 3s ease infinite}
+.title{font-family:var(--font);font-size:2.4rem;font-weight:700;background:linear-gradient(135deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.sub{color:var(--text2);font-size:1rem;margin-bottom:4px}
+.sub2{color:var(--text3);font-size:.82rem;margin-bottom:28px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:440px;margin:0 auto 28px}
+.sbox{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 12px;text-align:center;transition:all .2s;animation:slideUp .6s ease backwards}
+.sbox:hover{border-color:var(--green);transform:translateY(-3px)}
+.sbox .n{display:block;font-family:var(--font);font-size:1.6rem;font-weight:700;color:var(--green)}
+.sbox .l{display:block;font-size:.73rem;color:var(--text2);margin-top:2px}
+.home-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px}
+
+/* BUTTONS */
+.btn-p{background:linear-gradient(135deg,var(--green),#00b36b);color:#000;font-family:var(--font);font-weight:700;font-size:1rem;padding:13px 22px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 20px rgba(0,212,126,.25)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,126,.4)}
+.btn-p:active{transform:none}
+.btn-p:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none}
+.btn-s{background:var(--bg2);color:var(--text);font-family:var(--font);font-weight:500;font-size:.92rem;padding:12px 20px;border-radius:var(--r);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.btn-s:hover{border-color:var(--green);background:var(--green-dim);color:var(--green)}
+.btn-back{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-size:.88rem;font-family:var(--font);padding:8px 14px;border-radius:var(--r2);transition:all .2s;margin-bottom:20px}
+.btn-back:hover{color:var(--text);background:var(--bg2)}
+
+/* SECTION */
+.sh{margin-bottom:20px}
+.sh h2{font-family:var(--font);font-weight:700;font-size:1.35rem;margin-bottom:4px}
+.sh p{color:var(--text2);font-size:.88rem}
+
+/* MODE CARDS */
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:480px){.mode-grid{grid-template-columns:1fr}}
+.mc{background:var(--bg2);border:2px solid var(--border);border-radius:var(--r);padding:22px 18px;cursor:pointer;transition:all .25s}
+.mc:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:var(--shadow)}
+.mc .ic{font-size:2rem;margin-bottom:10px;display:block}
+.mc h3{font-family:var(--font);font-weight:600;font-size:.98rem;margin-bottom:6px}
+.mc p{font-size:.8rem;color:var(--text2);line-height:1.5}
+.badge{display:inline-block;font-size:.7rem;font-weight:600;font-family:var(--font);padding:2px 8px;border-radius:99px;margin-top:10px;background:var(--green-dim);color:var(--green)}
+.badge.b{background:var(--blue-dim);color:var(--blue)}
+
+/* TOPIC GRID */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px 14px;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;background:linear-gradient(90deg,var(--green),var(--blue));transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.tc:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:var(--shadow)}
+.tc:hover::before{transform:scaleX(1)}
+.tc .ti{font-size:2.2rem;margin-bottom:10px;display:block}
+.tc h3{font-family:var(--font);font-weight:600;font-size:.88rem;margin-bottom:4px}
+.tc .tc2{font-size:.75rem;color:var(--text3)}
+
+/* PROGRESS */
+.pw{background:var(--bg3);border-radius:99px;height:6px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:99px;transition:width .4s ease}
+.pl{display:flex;justify-content:space-between;font-size:.76rem;color:var(--text2);margin-top:5px}
+
+/* STUDY HEADER */
+.sh2{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
+.topic-pill{font-family:var(--font);font-size:.82rem;font-weight:500;color:var(--text2);background:var(--bg3);border:1px solid var(--border);padding:4px 12px;border-radius:99px}
+
+/* FLASHCARD */
+.scene{perspective:1000px;width:100%;height:340px;margin-bottom:20px;cursor:pointer}
+@media(max-width:460px){.scene{height:290px}}
+.c3d{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.645,.045,.355,1)}
+.c3d.flipped{transform:rotateY(180deg)}
+.cface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid var(--border);box-shadow:var(--shadow)}
+.cfront{background:var(--bg2)}
+.cback{transform:rotateY(180deg);background:linear-gradient(145deg,#0d2a1a,#0a1d2e);border-color:rgba(0,212,126,.4)}
+[data-theme="light"] .cback{background:linear-gradient(145deg,#dcfce7,#dbeafe);border-color:var(--green)}
+.ctag{font-size:.7rem;font-weight:600;font-family:var(--font);letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:16px}
+.cfront .ctag{background:var(--bg3);color:var(--text2)}
+.cback .ctag{background:rgba(0,212,126,.15);color:var(--green)}
+.cq{font-family:var(--font);font-size:1.22rem;font-weight:600;line-height:1.55;margin-bottom:12px}
+.chint{font-size:.78rem;color:var(--text3);margin-top:auto}
+.chint-ic{font-size:1.2rem;display:block;margin-bottom:4px}
+.ca-en{font-family:var(--font);font-size:1.5rem;font-weight:700;color:var(--green);margin-bottom:6px}
+.ca-th{font-size:1.05rem;color:var(--text2);margin-bottom:14px}
+.cdiv{width:40px;height:2px;background:var(--border);border-radius:99px;margin-bottom:14px}
+.cex-en{font-size:.83rem;color:var(--text2);line-height:1.6;margin-bottom:5px}
+.cex-th{font-size:.78rem;color:var(--text3);line-height:1.6}
+
+/* RATING */
+.rrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.brate{padding:12px 8px;border-radius:var(--r2);font-family:var(--font);font-weight:600;font-size:.83rem;border:2px solid;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px}
+.bhard{color:var(--red);border-color:var(--red);background:transparent}
+.bhard:hover{background:var(--red-dim);transform:translateY(-2px)}
+.bmed{color:var(--orange);border-color:var(--orange);background:transparent}
+.bmed:hover{background:var(--orange-dim);transform:translateY(-2px)}
+.beasy{color:var(--green);border-color:var(--green);background:transparent}
+.beasy:hover{background:var(--green-dim);transform:translateY(-2px)}
+.rrow.locked .brate{opacity:.4;pointer-events:none}
+.cmeta{display:flex;align-items:center;justify-content:space-between;font-size:.76rem;color:var(--text3);background:var(--bg3);border-radius:var(--r2);padding:8px 14px}
+
+/* QUIZ */
+.qhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
+.timer{font-family:'Courier New',monospace;font-size:1.2rem;font-weight:700;color:var(--green);background:var(--bg3);border:1px solid var(--border);padding:6px 14px;border-radius:var(--r2);min-width:72px;text-align:center}
+.qq{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--green);border-radius:var(--r);padding:20px;font-family:var(--font);font-size:1.08rem;font-weight:500;line-height:1.6;margin-bottom:16px}
+.qopts{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.qopt{background:var(--bg2);border:2px solid var(--border);border-radius:var(--r2);padding:14px 18px;font-size:.93rem;cursor:pointer;transition:all .18s;text-align:left;color:var(--text);font-family:var(--font2)}
+.qopt:hover:not(.dis){border-color:var(--blue);background:var(--blue-dim);color:var(--blue);transform:translateX(4px)}
+.qopt.correct{border-color:var(--green)!important;background:var(--green-dim)!important;color:var(--green)!important}
+.qopt.wrong{border-color:var(--red)!important;background:var(--red-dim)!important;color:var(--red)!important}
+.qopt.dis{cursor:default}
+
+/* RESULTS */
+.sring{width:160px;height:160px;border-radius:50%;background:conic-gradient(var(--green) var(--d,0deg),var(--bg3) 0deg);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative}
+.sring::before{content:'';position:absolute;inset:14px;background:var(--bg2);border-radius:50%}
+.sring-in{position:relative;z-index:1;text-align:center}
+.spct{font-family:var(--font);font-size:2rem;font-weight:700;color:var(--green)}
+.slbl{font-size:.73rem;color:var(--text2)}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;width:100%;max-width:380px}
+.rstat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 10px;text-align:center}
+.rstat .rn{font-family:var(--font);font-size:1.4rem;font-weight:700}
+.rstat .rl{font-size:.73rem;color:var(--text2);margin-top:2px}
+.gc{color:var(--green)}.rc{color:var(--red)}.bc{color:var(--blue)}
+.bkdn{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:20px;width:100%;max-width:380px}
+.bkdn h3{font-family:var(--font);font-size:.88rem;margin-bottom:12px;color:var(--text2)}
+.brow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.86rem}
+.brow:last-child{border-bottom:none}
+.bc2{font-weight:600}
+
+/* REVIEW */
+.ftabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
+.ftab{padding:8px 14px;border-radius:99px;font-size:.8rem;font-family:var(--font);font-weight:500;white-space:nowrap;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s}
+.ftab.active{background:var(--green);color:#000;border-color:var(--green)}
+.ftab:hover:not(.active){border-color:var(--green);color:var(--green)}
+.rlist{display:flex;flex-direction:column;gap:10px}
+.ri{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .2s}
+.ri:hover{border-left-color:var(--blue);box-shadow:var(--shadow);transform:translateX(4px)}
+.ri-q{font-family:var(--font);font-size:.93rem;font-weight:500;margin-bottom:6px}
+.ri-a{font-size:.86rem;color:var(--green);margin-bottom:8px}
+.ri-m{display:flex;gap:8px;flex-wrap:wrap;font-size:.73rem;color:var(--text3)}
+.ri-t{display:inline-flex;align-items:center;gap:3px;background:var(--bg3);padding:2px 8px;border-radius:99px}
+.empty{text-align:center;padding:40px 20px;background:var(--bg2);border:2px dashed var(--border);border-radius:var(--r)}
+.empty .ei{font-size:3rem;margin-bottom:12px}
+.empty p{color:var(--text2);margin-bottom:16px}
+
+/* DASHBOARD */
+.dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:380px){.dgrid{grid-template-columns:1fr}}
+.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px 16px;display:flex;align-items:center;gap:14px;transition:all .2s}
+.dcard:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:var(--shadow)}
+.dc-ic{font-size:2rem}
+.dc-n{font-family:var(--font);font-size:1.6rem;font-weight:700;color:var(--green)}
+.dc-l{font-size:.76rem;color:var(--text2);margin-top:2px}
+.sec-c{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.sec-c h3{font-family:var(--font);font-weight:600;font-size:.9rem;margin-bottom:14px;color:var(--text2)}
+.prow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pn{font-size:.86rem;flex:1;min-width:70px}
+.pw2{flex:2;background:var(--bg3);border-radius:99px;height:8px;overflow:hidden}
+.pb{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .6s ease}
+.pp{font-size:.76rem;color:var(--text2);min-width:36px;text-align:right}
+.rec-l{display:flex;flex-direction:column;gap:8px}
+.rec-i{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:var(--r2);padding:10px 14px;font-size:.86rem}
+.rec-a{color:var(--green);font-size:1rem;font-weight:700}
+
+/* STREAK BANNER */
+.streak{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(240,136,62,.1);border:1px solid rgba(240,136,62,.3);border-radius:var(--r2);padding:10px 18px;font-family:var(--font);font-size:.86rem;color:var(--orange);margin-bottom:16px}
+
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.obox{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;max-width:360px;width:100%;animation:slideUp .4s ease}
+.oic{font-size:4rem;margin-bottom:14px}
+.otitle{font-family:var(--font);font-size:1.5rem;font-weight:700;margin-bottom:8px}
+.osub{color:var(--text2);font-size:.9rem;margin-bottom:24px}
+.obtns{display:flex;flex-direction:column;gap:10px}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 20px;font-size:.86rem;color:var(--text);z-index:300;transition:transform .3s ease;box-shadow:var(--shadow);white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="logo" onclick="A.go('home')"><span>🧬</span> BioMastery TH</div>
+  <div class="nav-r">
+    <button class="btn-icon" onclick="A.go('dashboard')" title="Dashboard">📊</button>
+    <button class="btn-icon" onclick="A.go('review')" title="Review">🔄</button>
+    <button class="btn-icon" id="themeBtn" onclick="A.toggleTheme()">☀️</button>
+  </div>
+</nav>
+
+<div id="app"></div>
+<div id="toast"></div>
+
+<script>
+/* ====================================================
+   FLASHCARD DATA — เพิ่มการ์ดได้ที่นี่
+   ==================================================== */
+const CARDS=[
+  /* CELL BIOLOGY */
+  {id:"c01",t:"Cell Biology",s:"Organelles",q:"หน้าที่หลักของ Mitochondria คืออะไร?",ae:"ATP Production",at:"สร้างพลังงาน ATP",ee:"Mitochondria generate ATP via cellular respiration — glycolysis, Krebs cycle, and ETC",et:"ไมโทคอนเดรียสร้าง ATP ผ่านการหายใจระดับเซลล์ ได้แก่ ไกลโคไลซิส วัฏจักรเครบส์ และ ETC",d:2},
+  {id:"c02",t:"Cell Biology",s:"Organelles",q:"Organelle ใดทำ Photosynthesis ในพืช?",ae:"Chloroplast",at:"คลอโรพลาสต์",ee:"Chloroplasts contain thylakoid membranes (light reactions) and stroma (Calvin cycle)",et:"คลอโรพลาสต์มีไทลาคอยด์ (ปฏิกิริยาแสง) และสโตรมา (วัฏจักรคาลวิน)",d:1},
+  {id:"c03",t:"Cell Biology",s:"Cell Membrane",q:"โครงสร้างพื้นฐานของ Cell Membrane คืออะไร?",ae:"Phospholipid Bilayer",at:"ชั้นฟอสโฟลิปิดสองชั้น",ee:"Amphipathic phospholipids form a bilayer — hydrophilic heads outward, hydrophobic tails inward",et:"ฟอสโฟลิปิดจัดเรียงหัวชอบน้ำหันออก หางกลัวน้ำอยู่ด้านใน",d:2},
+  {id:"c04",t:"Cell Biology",s:"Cell Membrane",q:"โปรตีนชนิดใดช่วยการขนส่งผ่านเยื่อหุ้มเซลล์?",ae:"Channel & Carrier Proteins",at:"โปรตีนช่องทางและโปรตีนพาหะ",ee:"Channel proteins form pores for facilitated diffusion; carrier proteins bind and transport specific molecules",et:"โปรตีนช่องทางสร้างรูพรุน โปรตีนพาหะจับและส่งโมเลกุลเฉพาะ",d:3},
+  {id:"c05",t:"Cell Biology",s:"Organelles",q:"Ribosome ทำหน้าที่อะไร?",ae:"Protein Synthesis",at:"สังเคราะห์โปรตีน",ee:"Ribosomes read mRNA and assemble amino acids into polypeptide chains at the A and P sites",et:"ไรโบโซมอ่าน mRNA และเชื่อมกรดอะมิโนสร้างสายพอลิเพปไทด์ที่ตำแหน่ง A และ P",d:1},
+  {id:"c06",t:"Cell Biology",s:"Nucleus",q:"Nucleus เก็บอะไรและควบคุมอะไร?",ae:"DNA — controls all gene expression",at:"DNA ควบคุมการแสดงออกของยีนทั้งหมด",ee:"The nucleus houses chromosomal DNA, produces mRNA via transcription, and exports it for translation",et:"นิวเคลียสมี DNA โครโมโซม สร้าง mRNA ผ่านการถอดรหัส และส่งออกเพื่อแปลรหัส",d:1},
+  {id:"c07",t:"Cell Biology",s:"Cell Division",q:"Mitosis สร้างเซลล์ลูกแบบใด และมีกี่เซลล์?",ae:"2 genetically identical diploid cells",at:"2 เซลล์ดิพลอยด์ที่เหมือนกันทางพันธุกรรม",ee:"Mitosis: Prophase→Metaphase→Anaphase→Telophase→Cytokinesis — used for growth and repair",et:"มิโทซิส: โพรเฟส→เมตาเฟส→แอนาเฟส→เทโลเฟส→ไซโตไคนีซิส ใช้ในการเจริญและซ่อมแซม",d:2},
+  {id:"c08",t:"Cell Biology",s:"Cell Division",q:"Meiosis แตกต่างจาก Mitosis อย่างไร?",ae:"4 haploid genetically unique cells",at:"4 เซลล์แฮพลอยด์ที่หลากหลายทางพันธุกรรม",ee:"Meiosis I (reductive) + Meiosis II (mitotic) produce gametes; crossing over increases genetic diversity",et:"ไมโอซิส I (ลดจำนวน) + ไมโอซิส II (คล้ายมิโทซิส) สร้างแกมีต crossing over เพิ่มความหลากหลาย",d:3},
+  {id:"c09",t:"Cell Biology",s:"Transport",q:"Osmosis คืออะไร? น้ำเคลื่อนไปทิศใด?",ae:"Water moves from low to high solute concentration",at:"น้ำเคลื่อนจากความเข้มข้น Solute ต่ำ → สูง",ee:"Osmosis is passive diffusion of water across a semipermeable membrane down its water potential gradient",et:"ออสโมซิสคือการแพร่ของน้ำผ่านเยื่อกึ่งซึมผ่าน ตามความต่าง Water Potential",d:2},
+  {id:"c10",t:"Cell Biology",s:"Transport",q:"Active Transport ต้องการสิ่งใดที่ Passive Transport ไม่ต้องการ?",ae:"Energy (ATP)",at:"พลังงาน ATP",ee:"Active transport uses carrier proteins + ATP to move molecules against their concentration gradient",et:"การขนส่งแบบแอคทีฟใช้โปรตีนพาหะ + ATP เพื่อลำเลียงโมเลกุลทวนความเข้มข้น",d:2},
+  /* GENETICS */
+  {id:"g01",t:"Genetics",s:"DNA Structure",q:"DNA มีรูปร่างสามมิติเป็นอย่างไร?",ae:"Double Helix",at:"เกลียวคู่",ee:"Watson & Crick (1953) — antiparallel strands held by complementary base pairs",et:"วัตสันและคริก (1953) สายทั้งสองขนานตรงข้ามและจับคู่เบสเสริมกัน",d:1},
+  {id:"g02",t:"Genetics",s:"DNA Structure",q:"เบสใน DNA จับคู่กันตามกฎ Chargaff อย่างไร?",ae:"A–T (2H-bonds) and G–C (3H-bonds)",at:"A จับ T (2 พันธะ) และ G จับ C (3 พันธะ)",ee:"Purines (A,G) pair with pyrimidines (T,C); ratio A=T and G=C in double-stranded DNA",et:"พิวรีน (A,G) จับกับพิริมิดีน (T,C) สัดส่วน A=T และ G=C ใน DNA สายคู่",d:1},
+  {id:"g03",t:"Genetics",s:"Gene Expression",q:"Transcription คืออะไร และเกิดขึ้นที่ไหน?",ae:"DNA → mRNA, occurs in nucleus",at:"สร้าง mRNA จาก DNA ในนิวเคลียส",ee:"RNA polymerase reads template DNA strand 3'→5' and synthesizes mRNA 5'→3'",et:"RNA polymerase อ่านสายแม่แบบ DNA 3'→5' และสังเคราะห์ mRNA 5'→3'",d:2},
+  {id:"g04",t:"Genetics",s:"Gene Expression",q:"Translation เกิดที่ไหน และผลิตอะไร?",ae:"Ribosome — produces polypeptide",at:"ไรโบโซม → สายโพลีเพปไทด์ (โปรตีน)",ee:"tRNA brings amino acids matching each mRNA codon at ribosome A-site; peptide bond forms at P-site",et:"tRNA นำกรดอะมิโนที่ตรงกับ codon ของ mRNA มายังตำแหน่ง A ของไรโบโซม พันธะเพปไทด์เกิดที่ตำแหน่ง P",d:2},
+  {id:"g05",t:"Genetics",s:"Inheritance",q:"Mendel's Law of Segregation คืออะไร?",ae:"Alleles separate during gamete formation (meiosis)",at:"อัลลีลแยกออกระหว่างการสร้างแกมีต (ไมโอซิส)",ee:"Each organism has 2 alleles per gene; they segregate so each gamete carries only one allele",et:"สิ่งมีชีวิตมี 2 อัลลีลต่อยีน แยกออกระหว่างไมโอซิสให้แกมีตได้อัลลีลเดียว",d:2},
+  {id:"g06",t:"Genetics",s:"Inheritance",q:"พ่อแม่ต่างเป็น Heterozygous (Aa×Aa) โอกาสที่ลูกเป็น aa มีเท่าไร?",ae:"25% (1/4)",at:"25% หรือ 1 ใน 4",ee:"Punnett square: 1 AA : 2 Aa : 1 aa → phenotypic ratio 3:1, genotypic ratio 1:2:1",et:"ตารางปันเนตท์: 1 AA : 2 Aa : 1 aa → ฟีโนไทป์ 3:1 จีโนไทป์ 1:2:1",d:2},
+  {id:"g07",t:"Genetics",s:"Chromosomes",q:"มนุษย์มีโครโมโซมกี่แท่งในเซลล์ร่างกาย?",ae:"46 chromosomes (23 pairs)",at:"46 แท่ง (23 คู่)",ee:"22 pairs autosomes + 1 pair sex chromosomes (XX=female, XY=male)",et:"22 คู่ออโตโซม + 1 คู่โครโมโซมเพศ (XX=หญิง, XY=ชาย)",d:1},
+  {id:"g08",t:"Genetics",s:"Mutation",q:"Point Mutation มีกี่ประเภทหลัก?",ae:"Substitution, Insertion, Deletion",at:"การแทนที่ การแทรก การลบ",ee:"Substitution changes 1 base; insertion/deletion cause frameshift shifting all downstream codons",et:"การแทนที่เปลี่ยน 1 เบส การแทรก/ลบทำให้ frameshift เลื่อน codon ทั้งหมดที่อยู่ถัดไป",d:3},
+  /* HUMAN BODY */
+  {id:"b01",t:"Human Body",s:"Circulatory",q:"หัวใจมีกี่ห้อง และทำงานอย่างไร?",ae:"4 chambers — 2 atria + 2 ventricles",at:"4 ห้อง — 2 เอเทรียม + 2 เวนทริเคิล",ee:"Right side → pulmonary circulation (deoxygenated to lungs); Left side → systemic circulation (oxygenated to body)",et:"ด้านขวา → วงจรพัลมอนารี (เลือดดำไปปอด); ด้านซ้าย → วงจรซิสเตมิก (เลือดแดงไปร่างกาย)",d:2},
+  {id:"b02",t:"Human Body",s:"Circulatory",q:"Arteries, Veins, Capillaries แตกต่างกันอย่างไร?",ae:"Arteries=from heart; Veins=to heart; Capillaries=exchange",at:"Arteries ออกจากหัวใจ; Veins กลับหัวใจ; Capillaries แลกเปลี่ยนสาร",ee:"Arteries: thick elastic walls; Veins: valves prevent backflow; Capillaries: 1-cell thick for diffusion",et:"Arteries ผนังหนายืดหยุ่น; Veins มีลิ้นกั้นเลือดไหลกลับ; Capillaries บาง 1 เซลล์",d:2},
+  {id:"b03",t:"Human Body",s:"Respiratory",q:"การแลกเปลี่ยนก๊าซในปอดเกิดขึ้นที่ใด?",ae:"Alveoli (ถุงลมปอด)",at:"ถุงลมปอด (Alveoli)",ee:"Alveoli: large surface area + thin walls + moist surface → O₂ diffuses in, CO₂ diffuses out",et:"ถุงลมปอด พื้นที่ผิวกว้าง + ผนังบาง + ชุ่มชื้น → O₂ แพร่เข้าเลือด CO₂ แพร่ออก",d:2},
+  {id:"b04",t:"Human Body",s:"Respiratory",q:"กล้ามเนื้อใดทำให้ปอดขยายตัวเมื่อหายใจเข้า?",ae:"Diaphragm + External intercostals",at:"กะบังลม + กล้ามเนื้อซี่โครงภายนอก",ee:"Diaphragm contracts downward, external intercostals lift ribs → volume↑ → pressure↓ → air enters",et:"กะบังลมหดตัวลง + กล้ามเนื้อซี่โครงยกซี่โครง → ปริมาตรเพิ่ม → ความดันลด → อากาศเข้า",d:2},
+  {id:"b05",t:"Human Body",s:"Digestive",q:"Enzyme ใดย่อยโปรตีนในกระเพาะอาหาร?",ae:"Pepsin (a protease)",at:"เพปซิน (โปรตีเอส)",ee:"Pepsinogen activated by HCl → pepsin; works at pH 2, cleaves proteins into peptides",et:"เพปซิโนเจนถูกกระตุ้นด้วย HCl → เพปซิน ทำงานที่ pH 2 ตัดโปรตีนเป็นเพปไทด์",d:2},
+  {id:"b06",t:"Human Body",s:"Digestive",q:"Villi ในลำไส้เล็กมีประโยชน์อะไร?",ae:"Increase surface area for nutrient absorption",at:"เพิ่มพื้นที่ผิวสำหรับการดูดซึมสารอาหาร",ee:"Villi + microvilli increase intestinal area ~600×; absorb glucose, amino acids, fatty acids",et:"วิลลา + ไมโครวิลลา เพิ่มพื้นที่ลำไส้ ~600 เท่า ดูดซึมกลูโคส กรดอะมิโน กรดไขมัน",d:2},
+  {id:"b07",t:"Human Body",s:"Nervous",q:"Neuron มีส่วนประกอบอะไรบ้าง?",ae:"Cell body + Dendrites + Axon",at:"ตัวเซลล์ + เดนไดรต์ + แอกซอน",ee:"Dendrites receive signals; cell body integrates; axon transmits impulse; myelin sheath speeds conduction",et:"เดนไดรต์รับสัญญาณ ตัวเซลล์รวมประมวล แอกซอนส่งสัญญาณ ปลอกไมอีลินเพิ่มความเร็ว",d:2},
+  {id:"b08",t:"Human Body",s:"Nervous",q:"Synapse คืออะไร? สัญญาณส่งผ่านอย่างไร?",ae:"Gap between neurons — via neurotransmitters",at:"ช่องว่างระหว่างนิวรอน ส่งผ่าน Neurotransmitters",ee:"Action potential releases neurotransmitters (e.g. ACh) into synaptic cleft → bind receptors → new AP",et:"Action potential ปล่อย neurotransmitters (เช่น ACh) → จับ receptor บนเซลล์ถัดไป → สร้าง AP ใหม่",d:2},
+  {id:"b09",t:"Human Body",s:"Endocrine",q:"Insulin และ Glucagon ควบคุมน้ำตาลต่างกันอย่างไร?",ae:"Insulin lowers glucose; Glucagon raises glucose",at:"อินซูลินลดน้ำตาล กลูคากอนเพิ่มน้ำตาลในเลือด",ee:"β-cells release insulin post-meal; α-cells release glucagon when blood glucose is low — antagonistic hormones",et:"เบต้าเซลล์หลั่งอินซูลินหลังกิน แอลฟาเซลล์หลั่งกลูคากอนเมื่อน้ำตาลต่ำ ทั้งคู่ต่อต้านกัน",d:2},
+  {id:"b10",t:"Human Body",s:"Immune",q:"Antibody คืออะไร? ผลิตโดยเซลล์ใด?",ae:"Protein produced by B-lymphocytes (plasma cells)",at:"โปรตีนผลิตโดย B lymphocytes (Plasma cells)",ee:"Antibodies bind specific antigens → neutralise, agglutinate, or tag for phagocytosis; memory B cells persist",et:"แอนติบอดีจับ antigen เฉพาะ → ทำให้เป็นกลาง จับกลุ่ม หรือกระตุ้น phagocytosis; memory B cells จดจำ",d:3},
+  /* ECOLOGY */
+  {id:"e01",t:"Ecology",s:"Populations",q:"ความหนาแน่นของประชากร (Population Density) คืออะไร?",ae:"Number of individuals per unit area",at:"จำนวนสิ่งมีชีวิตต่อหน่วยพื้นที่",ee:"Pop. density = N/Area; affected by birth rate, death rate, immigration, emigration",et:"Population density = N/พื้นที่; ได้รับผลจากอัตราเกิด ตาย อพยพเข้า อพยพออก",d:1},
+  {id:"e02",t:"Ecology",s:"Energy Flow",q:"กฎ 10% ของพลังงานในระบบนิเวศหมายความว่าอะไร?",ae:"Only ~10% of energy transfers to each trophic level",at:"มีเพียง ~10% ของพลังงานที่โอนไปยังระดับถัดไป",ee:"Energy is lost as heat from respiration; only ~10% becomes biomass at the next level",et:"พลังงานสูญเสียเป็นความร้อนจากการหายใจ มีเพียง ~10% ที่กลายเป็นชีวมวลในระดับถัดไป",d:2},
+  {id:"e03",t:"Ecology",s:"Ecosystems",q:"Autotrophs (ผู้ผลิต) คือใคร?",ae:"Organisms that make own food via photosynthesis",at:"สิ่งมีชีวิตที่สร้างอาหารเองด้วยการสังเคราะห์แสง",ee:"Plants, algae, and cyanobacteria fix solar energy into organic molecules; base of all food chains",et:"พืช สาหร่าย ไซยาโนแบคทีเรีย ตรึงพลังงานแสงเป็นโมเลกุลอินทรีย์ เป็นฐานของห่วงโซ่อาหาร",d:1},
+  {id:"e04",t:"Ecology",s:"Ecosystems",q:"Decomposers ทำหน้าที่อะไรในระบบนิเวศ?",ae:"Break down dead matter → recycle nutrients",at:"สลายสารอินทรีย์ที่ตาย → คืนสารอาหารสู่ดิน",ee:"Fungi and bacteria decompose detritus, releasing inorganic N, P, K for plant uptake",et:"เชื้อราและแบคทีเรียสลาย detritus ปล่อยสารอาหารอนินทรีย์ N, P, K ให้พืชดูดซึม",d:2},
+  {id:"e05",t:"Ecology",s:"Biomes",q:"ป่าฝนเขตร้อน (Tropical Rainforest) มีลักษณะเด่นอะไรบ้าง?",ae:"High rainfall + high biodiversity + warm year-round",at:"ฝนตกมาก ความหลากหลายสูง อบอุ่นตลอดปี",ee:">2000mm rain/yr; 4 canopy layers; ~50% of Earth's species; fastest nutrient cycling",et:">2000 มม./ปี มี 4 ชั้น canopy ~50% ของสปีชีส์บนโลก วัฏจักรสารอาหารเร็วที่สุด",d:1},
+  {id:"e06",t:"Ecology",s:"Human Impact",q:"ปัจจัยหลักที่ทำให้สปีชีส์สูญพันธุ์คืออะไร?",ae:"Habitat destruction",at:"การทำลายที่อยู่อาศัย",ee:"Deforestation, urbanisation, pollution fragment habitats → small populations → genetic bottleneck",et:"การตัดไม้ การขยายเมือง มลพิษ ทำให้ที่อยู่อาศัยแตกชิ้น → ประชากรเล็กลง → genetic bottleneck",d:1},
+  {id:"e07",t:"Ecology",s:"Populations",q:"Carrying Capacity (K) คืออะไร?",ae:"Maximum population size a habitat can sustain",at:"จำนวนประชากรสูงสุดที่แหล่งที่อยู่อาศัยรองรับได้",ee:"As N approaches K, resources deplete → logistic (S-curve) growth replaces exponential (J-curve)",et:"เมื่อ N ใกล้ K ทรัพยากรลด → การเติบโตแบบ Logistic (S-curve) แทน Exponential (J-curve)",d:2},
+  {id:"e08",t:"Ecology",s:"Ecosystems",q:"Primary Succession คืออะไร? เริ่มจากอะไร?",ae:"Ecological succession starting from bare rock",at:"การสืบต่อทางนิเวศวิทยาเริ่มจากหินเปล่า",ee:"Pioneer species (lichens) → soil formation → mosses → grasses → shrubs → climax community",et:"สิ่งมีชีวิตบุกเบิก (ไลเคน) → ก่อตัวดิน → มอส → หญ้า → ไม้พุ่ม → ชุมชนนิยมสูงสุด",d:2},
+];
+
+/* ====================================================
+   APP
+   ==================================================== */
+const A=(()=>{
+  let sCards=[],sIdx=0,flipped=false;
+  let qCards=[],qIdx=0,qAns={},qStart=0,qTmr=null;
+  let rFilter='due';
+  let cMode=null,cTopic=null;
+
+  /* localStorage */
+  const GP=()=>{try{return JSON.parse(localStorage.getItem('bm_p')||'{}')}catch{return{}}};
+  const SP=p=>localStorage.setItem('bm_p',JSON.stringify(p));
+  const GS=()=>{const d={rev:0,cor:0,streak:0,last:null};try{return{...d,...JSON.parse(localStorage.getItem('bm_s')||'{}')};}catch{return d}};
+  const SS=s=>localStorage.setItem('bm_s',JSON.stringify(s));
+  const today=()=>new Date().toISOString().split('T')[0];
+
+  function initP(){
+    const p=GP(),td=today();
+    CARDS.forEach(c=>{if(!p[c.id])p[c.id]={next:td,iv:1,ef:2.5,rev:0,cor:0,last:null}});
+    SP(p);return p;
+  }
+
+  /* Spaced repetition */
+  function doRate(id,diff){
+    const p=GP(),e=p[id];
+    e.rev++;e.last=today();
+    if(diff==='easy'){e.cor++;e.iv=Math.max(1,Math.round(e.iv*e.ef));e.ef=Math.min(2.5,e.ef+.1)}
+    else if(diff==='medium'){e.cor++;e.iv=Math.max(1,Math.round(e.iv*1.3));e.ef=Math.max(1.3,e.ef-.08)}
+    else{e.iv=1;e.ef=Math.max(1.3,e.ef-.2)}
+    const nd=new Date();nd.setDate(nd.getDate()+e.iv);
+    e.next=nd.toISOString().split('T')[0];
+    SP(p);
+    const s=GS();s.rev++;if(diff!=='hard')s.cor++;
+    const td=today();
+    if(s.last!==td){const y=new Date();y.setDate(y.getDate()-1);const ys=y.toISOString().split('T')[0];s.streak=(s.last===ys)?s.streak+1:1;s.last=td;}
+    SS(s);
+  }
+
+  /* Theme */
+  function toggleTheme(){
+    const th=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',th);
+    localStorage.setItem('bm_t',th);
+    document.getElementById('themeBtn').textContent=th==='dark'?'☀️':'🌙';
+  }
+
+  /* Shuffle */
+  function shuf(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+  /* Toast */
+  let tt;
+  function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),2200);}
+
+  /* Render */
+  function go(pg,arg){
+    const el=document.getElementById('app');
+    el.innerHTML='';el.className='fade-in';
+    if(pg==='home')rHome(el);
+    else if(pg==='mode')rMode(el);
+    else if(pg==='topic')rTopic(el);
+    else if(pg==='study')rStudy(el);
+    else if(pg==='quiz')rQuiz(el);
+    else if(pg==='result')rResult(el);
+    else if(pg==='review')rReview(el);
+    else if(pg==='dashboard')rDash(el);
+  }
+
+  /* HOME */
+  function rHome(el){
+    const p=initP(),s=GS(),td=today();
+    const due=CARDS.filter(c=>p[c.id].next<=td).length;
+    const acc=s.rev>0?Math.round(s.cor/s.rev*100):0;
+    el.innerHTML=`
+    <div class="page page-c">
+      ${s.streak>0?`<div class="streak">🔥 ต่อเนื่อง ${s.streak} วัน!</div>`:''}
+      <div style="animation:slideUp .6s ease">
+        <div class="dna">🧬</div>
+        <div class="title">BioMastery TH</div>
+        <div class="sub">Biology Learning Platform</div>
+        <div class="sub2">ม.4–ม.6 · เตรียมสอบเข้ามหาวิทยาลัย</div>
+      </div>
+      <div class="stats-row">
+        <div class="sbox" style="animation-delay:.1s"><span class="n">${CARDS.length}</span><span class="l">Cards</span></div>
+        <div class="sbox" style="animation-delay:.2s"><span class="n" style="color:var(--orange)">${due}</span><span class="l">Due Today</span></div>
+        <div class="sbox" style="animation-delay:.3s"><span class="n">${acc}%</span><span class="l">Accuracy</span></div>
+      </div>
+      <div class="home-btns" style="animation:slideUp .6s .25s ease backwards">
+        <button class="btn-p" onclick="A.go('mode')">🚀 เริ่มเรียน — Start Learning</button>
+        <button class="btn-s" onclick="A.go('review')">🔄 Review Cards วันนี้</button>
+        <button class="btn-s" onclick="A.go('dashboard')">📊 Dashboard ของฉัน</button>
+      </div>
+    </div>`;}
+
+  /* MODE */
+  function rMode(el){
+    const topics=[...new Set(CARDS.map(c=>c.t))];
+    el.innerHTML=`
+    <div class="page">
+      <button class="btn-back" onclick="A.go('home')">← กลับ</button>
+      <div class="sh"><h2>เลือกโหมดการเรียน</h2><p>ระบบจะนำทางให้คุณอัตโนมัติ</p></div>
+      <div class="mode-grid">
+        <div class="mc" onclick="A.go('topic')">
+          <span class="ic">📚</span><h3>เรียนตาม Topic</h3>
+          <p>เจาะลึกทีละหัวข้อ เหมาะสำหรับเริ่มต้น</p>
+          <div class="badge">${topics.join(' · ')}</div>
+        </div>
+        <div class="mc" onclick="A.startMixed()">
+          <span class="ic">🎯</span><h3>Mixed Mode</h3>
+          <p>ผสมทุก Topic จำลองสอบจริง ฝึก interleaving</p>
+          <div class="badge b">All Topics</div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <button class="btn-p" onclick="A.startQuiz(CARDS)" style="max-width:280px;margin:0 auto">⚡ ทำ Quiz ทันที!</button>
+      </div>
+    </div>`;}
+
+  /* TOPIC */
+  function rTopic(el){
+    const icons={'Cell Biology':'🧬','Genetics':'🔬','Human Body':'💗','Ecology':'🌍'};
+    const topics=[...new Set(CARDS.map(c=>c.t))];
+    const p=initP(),td=today();
+    el.innerHTML=`
+    <div class="page">
+      <button class="btn-back" onclick="A.go('mode')">← กลับ</button>
+      <div class="sh"><h2>เลือก Topic</h2><p>แตะเพื่อเริ่มเรียน</p></div>
+      <div class="tgrid">
+        ${topics.map((t,i)=>{
+          const cnt=CARDS.filter(c=>c.t===t).length;
+          const due=CARDS.filter(c=>c.t===t&&p[c.id].next<=td).length;
+          return`<div class="tc" onclick="A.startTopic('${t}')" style="animation:slideUp .5s ${i*.07}s ease backwards">
+            <span class="ti">${icons[t]||'📖'}</span>
+            <h3>${t}</h3>
+            <div class="tc2">${cnt} cards · ${due} due</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;}
+
+  /* STUDY */
+  function rStudy(el){
+    if(sIdx>=sCards.length){rComplete(el);return;}
+    const c=sCards[sIdx];
+    const p=initP(),e=p[c.id];
+    flipped=false;
+    const pct=Math.round(sIdx/sCards.length*100);
+    const lbl=cMode==='mixed'?'Mixed Mode':cTopic||'Review';
+    el.innerHTML=`
+    <div class="page">
+      <div class="sh2">
+        <button class="btn-back" onclick="A.go('home')">← ออก</button>
+        <span class="topic-pill">${lbl}</span>
+      </div>
+      <div class="pw"><div class="pf" style="width:${pct}%"></div></div>
+      <div class="pl"><span>Card ${sIdx+1} / ${sCards.length}</span><span>${pct}%</span></div>
+      <br>
+      <div class="scene" id="scene" onclick="A.flip()">
+        <div class="c3d" id="c3d">
+          <div class="cface cfront">
+            <div class="ctag">❓ คำถาม · ${c.t}</div>
+            <div class="cq">${c.q}</div>
+            <div class="chint"><span class="chint-ic">👆</span>แตะเพื่อดูคำตอบ</div>
+          </div>
+          <div class="cface cback">
+            <div class="ctag">✅ คำตอบ</div>
+            <div class="ca-en">${c.ae}</div>
+            <div class="ca-th">${c.at}</div>
+            <div class="cdiv"></div>
+            <div class="cex-en">${c.ee}</div>
+            <div class="cex-th">(${c.et})</div>
+          </div>
+        </div>
+      </div>
+      <div class="rrow locked" id="rrow">
+        <button class="brate bhard" onclick="A.rate('hard')">🔴 Hard</button>
+        <button class="brate bmed" onclick="A.rate('medium')">🟡 Medium</button>
+        <button class="brate beasy" onclick="A.rate('easy')">🟢 Easy</button>
+      </div>
+      <div class="cmeta"><span>⭐ Level ${c.d}/3 · ${c.s}</span><span>Next: ${e.next===today()?'Today':e.next}</span></div>
+    </div>`;}
+
+  function rComplete(el){
+    el.innerHTML=`
+    <div class="overlay">
+      <div class="obox">
+        <div class="oic">🎉</div>
+        <div class="otitle">ศึกษาเสร็จแล้ว!</div>
+        <div class="osub">เรียนครบ ${sCards.length} cards<br>พร้อมทำ Quiz ไหม?</div>
+        <div class="obtns">
+          <button class="btn-p" onclick="A.startQuizFromStudy()">⚡ ทำ Quiz ต่อเลย!</button>
+          <button class="btn-s" onclick="A.go('home')">🏠 กลับหน้าหลัก</button>
+        </div>
+      </div>
+    </div>`;}
+
+  function flip(){
+    flipped=!flipped;
+    const c=document.getElementById('c3d');
+    if(c)c.classList.toggle('flipped',flipped);
+    if(flipped){const r=document.getElementById('rrow');if(r)r.classList.remove('locked');}
+  }
+
+  function rate(diff){
+    doRate(sCards[sIdx].id,diff);
+    sIdx++;
+    go('study');
+    toast(diff==='easy'?'✅ ยอดเยี่ยม!':diff==='medium'?'👍 ดีมาก!':'💪 ฝึกเพิ่มได้');
+  }
+
+  function startTopic(t){cTopic=t;cMode='topic';sCards=shuf(CARDS.filter(c=>c.t===t));sIdx=0;go('study');}
+  function startMixed(){cTopic=null;cMode='mixed';sCards=shuf([...CARDS]);sIdx=0;go('study');}
+
+  /* QUIZ */
+  function startQuiz(pool){
+    const p2=cMode==='topic'&&cTopic?pool.filter(c=>c.t===cTopic):pool;
+    qCards=shuf([...p2]).slice(0,Math.min(10,p2.length));
+    qIdx=0;qAns={};qStart=Date.now();go('quiz');startTimer();
+  }
+  function startQuizFromStudy(){
+    const pool=cMode==='topic'&&cTopic?CARDS.filter(c=>c.t===cTopic):CARDS;
+    qCards=shuf([...pool]).slice(0,Math.min(10,pool.length));
+    qIdx=0;qAns={};qStart=Date.now();go('quiz');startTimer();
+  }
+  function startTimer(){
+    if(qTmr)clearInterval(qTmr);
+    qTmr=setInterval(()=>{
+      const el=document.getElementById('tmr');if(!el){clearInterval(qTmr);return;}
+      const s=Math.floor((Date.now()-qStart)/1000);
+      el.textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    },1000);
+  }
+
+  function rQuiz(el){
+    if(qIdx>=qCards.length){clearInterval(qTmr);rResult(el);return;}
+    const c=qCards[qIdx];
+    const pct=Math.round(qIdx/qCards.length*100);
+    const ans=qAns[qIdx];
+    const wrong=shuf(CARDS.filter(x=>x.id!==c.id)).slice(0,3).map(x=>x.ae);
+    const opts=shuf([c.ae,...wrong]);
+    el.innerHTML=`
+    <div class="page">
+      <div class="qhdr">
+        <button class="btn-back" onclick="A.exitQuiz()">← ออก</button>
+        <span class="topic-pill">Quiz ${qIdx+1} / ${qCards.length}</span>
+        <div class="timer" id="tmr">00:00</div>
+      </div>
+      <div class="pw"><div class="pf" style="width:${pct}%"></div></div><br>
+      <div class="qq">${c.q}</div>
+      <div class="qopts">
+        ${opts.map(o=>`<button class="qopt${ans?' dis':''}" data-v="${o}"
+          onclick="A.pick(this,'${o.replace(/'/g,"\\'")}','${c.ae.replace(/'/g,"\\'")}')">
+          ${o}</button>`).join('')}
+      </div>
+      <div style="text-align:center">
+        <button class="btn-p" id="nb" ${ans?'':'disabled'} onclick="A.nextQ()"
+          style="${ans?'':'opacity:.4;cursor:not-allowed'}">
+          ${qIdx+1<qCards.length?'ข้อถัดไป →':'ดูผล 🎉'}
+        </button>
+      </div>
+    </div>`;
+    if(ans)restoreQ(c.ae,ans.chosen);
+  }
+
+  function restoreQ(correct,chosen){
+    document.querySelectorAll('.qopt').forEach(b=>{
+      b.classList.add('dis');
+      if(b.dataset.v===correct)b.classList.add('correct');
+      else if(b.dataset.v===chosen&&chosen!==correct)b.classList.add('wrong');
+    });
+  }
+
+  function pick(btn,chosen,correct){
+    if(qAns[qIdx]!==undefined)return;
+    qAns[qIdx]={chosen,correct,ok:chosen===correct};
+    document.querySelectorAll('.qopt').forEach(b=>{
+      b.classList.add('dis');
+      if(b.dataset.v===correct)b.classList.add('correct');
+      else if(b.dataset.v===chosen&&chosen!==correct)b.classList.add('wrong');
+    });
+    const nb=document.getElementById('nb');
+    if(nb){nb.disabled=false;nb.style.opacity='1';nb.style.cursor='pointer';}
+    toast(chosen===correct?'✅ ถูกต้อง!':`❌ คำตอบ: ${correct}`);
+  }
+
+  function nextQ(){qIdx++;go('quiz');}
+  function exitQuiz(){clearInterval(qTmr);go('home');}
+
+  /* RESULT */
+  function rResult(el){
+    clearInterval(qTmr);
+    const total=qCards.length,cor=Object.values(qAns).filter(a=>a.ok).length;
+    const score=Math.round(cor/total*100);
+    const elapsed=Math.floor((Date.now()-qStart)/1000);
+    const s=GS();s.rev+=total;s.cor+=cor;SS(s);
+    /* Mark wrong cards for review */
+    const p=initP();
+    Object.entries(qAns).forEach(([i,a])=>{if(!a.ok){const c=qCards[parseInt(i)];if(c){p[c.id].iv=1;p[c.id].next=today();}}});
+    SP(p);
+    const emoji=score>=80?'🏆':score>=60?'👍':'💪';
+    const msg=score>=80?'ยอดเยี่ยมมาก!':score>=60?'ดีมาก ฝึกต่อไป!':'ยังต้องฝึกเพิ่ม!';
+    const tm={};
+    qCards.forEach((c,i)=>{if(!tm[c.t])tm[c.t]={t:0,c:0};tm[c.t].t++;if(qAns[i]?.ok)tm[c.t].c++;});
+    const deg=score*3.6;
+    el.innerHTML=`
+    <div class="page page-c">
+      <div style="font-size:3.5rem;margin-bottom:10px">${emoji}</div>
+      <div class="sh"><h2>${msg}</h2><p>คะแนน Quiz</p></div>
+      <div class="sring" style="--d:${deg}deg">
+        <div class="sring-in"><div class="spct">${score}</div><div class="slbl">คะแนน</div></div>
+      </div>
+      <div class="rstats">
+        <div class="rstat"><div class="rn gc">${cor}</div><div class="rl">ถูก ✅</div></div>
+        <div class="rstat"><div class="rn rc">${total-cor}</div><div class="rl">ผิด ❌</div></div>
+        <div class="rstat"><div class="rn bc">${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}</div><div class="rl">เวลา ⏱</div></div>
+      </div>
+      <div class="bkdn">
+        <h3>ผลตาม Topic</h3>
+        ${Object.entries(tm).map(([t,v])=>`
+          <div class="brow"><span>${t}</span>
+          <span class="bc2 ${v.c===v.t?'gc':'rc'}">${v.c}/${v.t}</span></div>`).join('')}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:380px">
+        <button class="btn-p" onclick="A.go('home')">🏠 กลับหน้าหลัก</button>
+        <button class="btn-s" onclick="A.reviewWrong()">📖 ทบทวนที่ตอบผิด</button>
+        <button class="btn-s" onclick="A.startQuizFromStudy()">🔁 Quiz อีกครั้ง</button>
+      </div>
+    </div>`;}
+
+  function reviewWrong(){
+    const w=Object.entries(qAns).filter(([,a])=>!a.ok).map(([i])=>qCards[parseInt(i)]).filter(Boolean);
+    if(!w.length){toast('ไม่มีข้อที่ผิด! 🎉');go('home');return;}
+    sCards=w;cMode='review';cTopic=null;sIdx=0;go('study');
+  }
+
+  /* REVIEW */
+  function rReview(el){
+    const p=initP(),td=today();
+    const due=CARDS.filter(c=>p[c.id].next<=td);
+    const weak=CARDS.filter(c=>{const e=p[c.id];return e.rev>0&&e.cor/e.rev<.7;});
+    const list=rFilter==='due'?due:rFilter==='weak'?weak:CARDS;
+    el.innerHTML=`
+    <div class="page">
+      <button class="btn-back" onclick="A.go('home')">← กลับ</button>
+      <div class="sh"><h2>🔄 Review Cards</h2><p>ทบทวนการ์ดที่ต้องการฝึก</p></div>
+      <div class="ftabs">
+        <button class="ftab${rFilter==='due'?' active':''}" onclick="A.setFilter('due')">📌 Due (${due.length})</button>
+        <button class="ftab${rFilter==='weak'?' active':''}" onclick="A.setFilter('weak')">💪 Weak (${weak.length})</button>
+        <button class="ftab${rFilter==='all'?' active':''}" onclick="A.setFilter('all')">📚 All (${CARDS.length})</button>
+      </div>
+      ${list.length===0?`
+      <div class="empty">
+        <div class="ei">🎉</div>
+        <p>ไม่มีการ์ดให้ทบทวนตอนนี้!</p>
+        <button class="btn-p" onclick="A.go('home')">กลับหน้าหลัก</button>
+      </div>`:
+      `<div class="rlist">
+        ${list.map((c,i)=>{
+          const e=p[c.id];
+          const acc=e.rev>0?Math.round(e.cor/e.rev*100):0;
+          return`<div class="ri" onclick="A.reviewOne('${c.id}')" style="animation:slideUp .4s ${i*.03}s ease backwards">
+            <div class="ri-q">${c.q}</div>
+            <div class="ri-a">→ ${c.ae} (${c.at})</div>
+            <div class="ri-m">
+              <span class="ri-t">📚 ${c.t}</span>
+              <span class="ri-t">📌 ${c.s}</span>
+              <span class="ri-t">🎯 ${acc}%</span>
+              <span class="ri-t">🔄 ${e.rev}×</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`}
+    </div>`;}
+
+  function setFilter(f){rFilter=f;go('review');}
+  function reviewOne(id){
+    const c=CARDS.find(x=>x.id===id);if(!c)return;
+    sCards=[c];cMode='single';cTopic=null;sIdx=0;go('study');
+  }
+
+  /* DASHBOARD */
+  function rDash(el){
+    const p=initP(),s=GS(),td=today();
+    const acc=s.rev>0?Math.round(s.cor/s.rev*100):0;
+    const due=CARDS.filter(c=>p[c.id].next<=td).length;
+    const topics=[...new Set(CARDS.map(c=>c.t))];
+    const tp=topics.map(t=>{
+      const tc=CARDS.filter(c=>c.t===t);
+      const cr=tc.reduce((a,c)=>a+p[c.id].cor,0);
+      const rv=tc.reduce((a,c)=>a+p[c.id].rev,0);
+      return{t,pct:rv>0?Math.round(cr/rv*100):0};
+    });
+    const weak=[...tp].sort((a,b)=>a.pct-b.pct);
+    el.innerHTML=`
+    <div class="page">
+      <button class="btn-back" onclick="A.go('home')">← กลับ</button>
+      <div class="sh"><h2>📊 Dashboard</h2><p>สรุปการเรียนรู้ของคุณ</p></div>
+      <div class="dgrid">
+        <div class="dcard"><div class="dc-ic">📚</div><div><div class="dc-n">${CARDS.length}</div><div class="dc-l">Cards ทั้งหมด</div></div></div>
+        <div class="dcard"><div class="dc-ic">🎯</div><div><div class="dc-n">${acc}%</div><div class="dc-l">Accuracy รวม</div></div></div>
+        <div class="dcard"><div class="dc-ic">🔥</div><div><div class="dc-n">${s.streak}</div><div class="dc-l">Daily Streak</div></div></div>
+        <div class="dcard"><div class="dc-ic">⏰</div><div><div class="dc-n" style="color:var(--orange)">${due}</div><div class="dc-l">Due Today</div></div></div>
+      </div>
+      <div class="sec-c">
+        <h3>📈 Performance by Topic</h3>
+        ${tp.map(x=>`
+          <div class="prow">
+            <div class="pn">${x.t}</div>
+            <div class="pw2"><div class="pb" style="width:${x.pct}%"></div></div>
+            <div class="pp">${x.pct}%</div>
+          </div>`).join('')}
+      </div>
+      <div class="sec-c">
+        <h3>💡 คำแนะนำ</h3>
+        <div class="rec-l">
+          ${weak.slice(0,3).filter(x=>x.pct<85).map(x=>`
+            <div class="rec-i"><span class="rec-a">→</span>ฝึก <strong>${x.t}</strong> เพิ่ม (${x.pct}%)</div>`).join('')
+            ||'<div class="rec-i"><span class="rec-a">→</span>ยอดเยี่ยม! ทบทวน due cards เพื่อ maintain</div>'}
+          ${due>0?`<div class="rec-i"><span class="rec-a">→</span>มี <strong>${due} cards</strong> รอ review วันนี้</div>`:''}
+        </div>
+      </div>
+    </div>`;}
+
+  /* Init */
+  function init(){
+    const th=localStorage.getItem('bm_t')||'dark';
+    document.documentElement.setAttribute('data-theme',th);
+    document.getElementById('themeBtn').textContent=th==='dark'?'☀️':'🌙';
+    initP();go('home');
+  }
+
+  return{go,toggleTheme,flip,rate,startTopic,startMixed,
+    startQuiz,startQuizFromStudy,pick,nextQ,exitQuiz,reviewWrong,
+    setFilter,reviewOne,init};
+})();
+
+document.addEventListener('DOMContentLoaded',()=>A.init());
+if(document.readyState!=='loading')A.init();
+</script>
+</body>
+</html>
